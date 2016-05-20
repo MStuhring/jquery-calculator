@@ -1,23 +1,32 @@
 var $screen = $('#screen');
+var $buttons = $('span');
+var divide = $('.operator').eq(1).text();
+var multiply = $('.operator').eq(2).text();
+var subtract = $('operator').eq(3).text();
+var addition = $('operator').eq(4).text();
+var result = '';
 
-// Event listener to buttons
-var pressButton = function() {
+$buttons.click(function(event) {
 
-  var $buttons = $('span');
-
-  //Guard clause for Error
-  if ($screen.text() === 'Error') {
-    return;
-
-  } else {
-    // Adds event listener to buttons
-    $buttons.click(function(event) {
-      if ($(event.target).text() === 'C') {
-        return $screen.text('');
+  if ($(event.target).text() === 'C') {
+    return $screen.text('');
+  } else if ($(event.target).text() === divide) {
+    return $screen.append('/');
+  } else if ($(event.target).text() === multiply) {
+    return $screen.append('*');
+  } else if ($(event.target).text() === '=') {
+      try {
+        result = eval($screen.text());
       }
-      var $addToScreen = $(event.target).text();
-      $screen.append($addToScreen);
-    });
+      catch(e) {
+        return $screen.text('Error');
+      }
+
+     if (result === Infinity) {
+       return $screen.text('Error');
+     }
+    return $screen.text(result);
   }
-};
-pressButton();
+  var $addToScreen = $(event.target).text();
+  $screen.append($addToScreen);
+});
